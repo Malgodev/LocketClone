@@ -1,0 +1,53 @@
+/* LoginRegister.css */
+.full-height {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0f100b;
+}
+
+.container {
+    width: 50%;
+    min-height: 400px;
+    height: 50%;
+    padding: 0;
+    background-color: #454545;
+    color: #dddddd;
+}
+
+.login{
+    max-width: 50%;
+    color: #feb801;
+}
+
+.header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.header-text{
+    color: #feb801;
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.inputs{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    /* background: ; */
+    
+}
