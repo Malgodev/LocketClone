@@ -38,7 +38,7 @@
 .inputs{
     margin-top: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 5px;
 }
 
@@ -48,6 +48,14 @@
     margin: auto;
     width: 100px;
     height: 100px;
-    /* background: ; */
-    
+}
+
+.input input{
+    background-color: #282627;
+    color: #282627;
+}
+
+.input img{
+    width: 50px;
+    height: 40px;
 }
