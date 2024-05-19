@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #0f100b;
+    background-color: #f4f4f4;
 }
 
 .container {
@@ -12,13 +12,17 @@
     min-height: 400px;
     height: 50%;
     padding: 0;
-    background-color: #454545;
+    background-color: #f4f4f4;
     color: #dddddd;
 }
 
 .login{
     max-width: 50%;
     color: #feb801;
+}
+
+.cover{
+    color: aqua;
 }
 
 .header{
@@ -51,8 +55,12 @@
 }
 
 .input input{
-    background-color: #282627;
-    color: #282627;
+    background-color: #dfdfdf;
+    color: #dcdcdc;
+    width: 240px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
 }
 
 .input img{

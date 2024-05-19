@@ -1,30 +1,22 @@
 import React from "react";
 import './LoginRegister.css';
+import AuthForm from '../AuthForm/AuthForm';
+import { Container, Flex, VStack, Box, Image } from "@chakra-ui/react";
 
 const LoginRegister = () => {
     return (
-        <div className="full-height">
-            <div className="container">
-                <div className="login">
-                    <div className="Icon">
-                        {/* <div className="header-text">Sign Up</div> */}
-                    </div>      
-                    <div className="input">
-                        <img src="./Icon/User_alt.svg" alt="" className="icon"/>
-                        <input type="username" placeholder="Username"/>
-                    </div>  
-                    <div className="input">
-                        <img src="./Icon/Password.svg" alt="" className="icon"/>
-                        <input type="password" placeholder="Password"/>
-                    </div>                     
-                </div>
-                <div className="forgot-password">Lost password?</div>
-                <div className="submit-container">
-                    <div className="submit">Sign Up</div>
-                    <div className="submit">Login</div>
-                </div>
-            </div>
-        </div>
+        <Flex minH={"100vh"} justifyContent={"center"} alignItems={"center"} px={4}>
+            <Container maxW={"container.md"} padding={0}>
+                <Flex justifyContent={"center"} alignItems={"center"} gap={10}>
+                    <Box display = {{base: "none", md: "block"}}>
+                        <Image src="./Icon/arya.jpg" h={500} maxWidth={350} objectFit="cover" alt="web preview"/>
+                    </Box>
+                    <VStack spacing={4} align={"stretch"}>
+                        <AuthForm />
+                    </VStack>
+                </Flex>
+            </Container>
+        </Flex>
     );
 }
 
