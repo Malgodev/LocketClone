@@ -1,8 +1,22 @@
+import { Container, Flex, Box } from "@chakra-ui/react";
 import React from "react";
+import Posts from "../Posts/Posts";
 
 const HomePage = () => {
     return(
-        <div className="homepage">HomePage </div>
+        <Container maxW={"container.lg"}>
+            <Flex gap={20}>
+                <Box flex={2} py={10}>
+                    <Posts />
+                </Box>
+                <Box flex={3} mr={20}
+                    display={{base:"none", lg:"block"}}    
+                    maxW={"300px"}
+                >
+                    Suggested
+                </Box>
+            </Flex>
+        </Container>
     );
 }
 

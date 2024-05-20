@@ -6,14 +6,14 @@ import PageLayout from './component/PageLayout/PageLayout';
 
 function App() {
   return (
-    <PageLayout>
-      <Router>
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/auth' element={<LoginRegister/>} />
-        </Routes>
-      </Router>
-    </PageLayout>
+    <Router>
+      <PageLayout>
+          <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/auth' element={<LoginRegister/>} />
+          </Routes>
+      </PageLayout>
+    </Router>
   );
 }
 

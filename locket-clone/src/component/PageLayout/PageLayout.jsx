@@ -7,7 +7,7 @@ const PageLayout = ({children}) => {
   const {pathname} = useLocation()
   return (
     <Flex>
-        {/* navigate panel */}\
+        {/* navigate panel */}
         {pathname !== "/auth" ? (
         <Box w={{base: "70px", md: "240px"}}>
             <Sidebar />
