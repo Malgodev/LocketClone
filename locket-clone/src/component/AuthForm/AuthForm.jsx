@@ -1,7 +1,9 @@
 import React from 'react'
 import { Box, VStack, Image, Input, InputGroup, InputRightElement, Button, Flex } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
+import { BACKEND_API } from '../../config';
 
 const AuthPage = () => {
   const [show, setShow] = React.useState(false)
@@ -15,13 +17,31 @@ const AuthPage = () => {
   const navigate = useNavigate()
 
   const handleClick = () => setShow(!show)
-  const handleAuth = () => {
-    if (!inputs.username || !inputs.password) {
-      alert("Please fill all fields");
-      return;
-    }
-    
-    navigate("/");
+  const handleAuth = async () => {
+    // if (!inputs.username || !inputs.password) {
+    //   alert("Please fill all fields");
+    //   return;
+    // }
+
+    navigate('/');
+
+    // try{
+    //   const res = await axios.post(
+    //     BACKEND_API + "/user/login",
+    //     { username: inputs.username, password: inputs.password },
+    //     {
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       }
+    //     }
+    //   );
+
+    //   if (res.status === 200){
+    //     navigate('/')
+    //   }
+    // }catch(err){
+    //   console.log(err)
+    // }
   }
 
   return (
