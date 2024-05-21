@@ -7,17 +7,33 @@ import {
   Modal,
   ModalOverlay,
   ModalCloseButton,
-  ModalHeader,
   ModalBody,
   ModalContent,
   Box,
-  Avatar
+  Avatar,
+  Divider,
+  VStack,
 } from "@chakra-ui/react";
-import { Unlike, CommentLogo } from "../../logo";
-import React from "react";
+import { Unlike, CommentLogo, Delete } from "../../logo";
+import Comment from "../Comment/Comment";
+import React, { useEffect } from "react";
+import PostFooter from "../Posts/PostFooter";
 
-const ProfilePost = ({ img }) => {
+const ProfilePost = ({ user, img }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const comments = React.useRef(null);
+
+    useEffect(() => {
+        comments.current = img.comments.map((item) => (
+            <Comment 
+            comment= {item.comment}
+            // date_time= {item.date_time}
+            date_time= {"1w"}
+            user_id= {item.user_id}
+            _id= {item._id} />
+        ));
+    });
+
   return (
     <>
       <GridItem
@@ -54,13 +70,13 @@ const ProfilePost = ({ img }) => {
             <Flex>
               <CommentLogo size={20} />
               <Text fontWeight={"bold"} ml={2}>
-                0
+                {img.comments.length}
               </Text>
             </Flex>
           </Flex>
         </Flex>
         <Image
-          src={img}
+          src={`/images/${img.file_name}`}
           alt="profile post"
           w={"100%"}
           h={"100%"}
@@ -68,24 +84,54 @@ const ProfilePost = ({ img }) => {
         />
       </GridItem>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered={true} size={"3xl"}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered={true} size={"4xl"}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
           <ModalCloseButton />
-          <ModalBody bg={"white"} maxW={"90%"}>
-            <Flex gap={4} w={"90%"} mx={"auto"}>
-                <Box borderRadius={4} overflow={"hidden"} border={"1px solid"} borderColor={"whiteAlpha.300"} flex={1.5}>
-                    <Image src={img} alt="profile post" />
-                </Box>
-                <Flex flex={1} flexDir={"column"} px={10} display={"none"}>
-                    <Flex alignItems={"center"} justifyContent={"space-between"} gap={4}>
-                        <Avatar src="/arya1.jpg" alt="Profile avatar" />
-                        <Text fontWeight={"bold"} fontSize={12}>
-                            Lmao
-                        </Text>
-                    </Flex>
+          <ModalBody bg={"white.500"} pb={1}>
+            <Flex gap="4" flexDir="row">
+              <Box
+                borderRadius={4}
+                overflow="hidden"
+                border="1px solid"
+                borderColor="blackAlpha.300"
+                flex={1.5}
+                aspectRatio={9 / 16}
+                w="100%"
+              >
+                <Image
+                  src={`/images/${img.file_name}`}
+                  alt="profile post"
+                  w={"100%"}
+                  h={"100%"}
+                  objectFit={"cover"}
+                />
+              </Box>
+
+              <Flex flex={1} flexDir={"column"} px={10} display={"flex"}>
+                <Flex alignItems={"center"} justifyContent={"space-between"}>
+                  <Flex gap={4} alignItems={"center"}>
+                    <Avatar src="/arya1.jpg" name="Lmao" size={"sm"} />
+                    <Text fontWeight={"bold"} fontSize={12}>
+                      Lmao
+                    </Text>
+                  </Flex>
+                  <Box
+                    _hover={{ bg: "whiteAlpha.300", color: "red.600" }}
+                    borderRadius={4}
+                    p={1}
+                  >
+                    <Delete size={20} cursor={"pointer"} />
+                  </Box>
                 </Flex>
+                <Divider my={4} bg={"gray.500"}/>
+
+                <VStack w={"30vh"} alignItems={"start"} maxH={"500px"} overflowY={"auto"}>
+                    {comments.current}
+                </VStack>
+                <Divider my={4} bg={"gray.500"}/>
+                <PostFooter />
+              </Flex>
             </Flex>
           </ModalBody>
         </ModalContent>

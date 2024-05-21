@@ -1,8 +1,37 @@
 import { Avatar, AvatarGroup, Container, Flex, VStack, Text, Button, Grid } from "@chakra-ui/react";
+// import 
 import ProfilePost from "./ProfilePost";
-import React from "react";
+import React, { useEffect } from "react";
+import { BACKEND_API } from "../../config";
+import axios from "axios";
+import useAuthStore from "../../store/authStore";
 
 const Profile = () => {
+    const [isLoading, setIsLoading] = React.useState(true);
+    const photos = React.useRef(null)
+    const user = React.useRef(null)
+    const authUser = useAuthStore((state) => state.user);    
+
+    useEffect(() => {
+        axios.get(`${BACKEND_API}/photos/photoOfUser/${authUser}`).then((result) => {
+            photos.current = result.data.map((item) => {
+                // console.log(item.file_name)
+                return(
+                <ProfilePost
+                    src={`/images/${item.file_name}`}
+                    user = {user.current}
+                    img = {item}
+                />
+            )});
+            setIsLoading(false);
+        });
+
+        axios.get(`${BACKEND_API}/user/profile/${authUser}`).then((result) => {
+            user.current = result.data;
+            setIsLoading(false);
+        });
+    });
+
   return (
     <Container maxW="container.lg" py={5}>
         {/* Profile header */}
@@ -70,10 +99,7 @@ const Profile = () => {
         direction={"column"}
       >
         <Grid templateColumns={"repeat(3, 1fr)"} gap={1} columnGap={1}>
-            <ProfilePost img="/images/arya1.jpg" />
-            <ProfilePost img="/images/arya2.jpg" />
-            <ProfilePost img="/images/arya3.jpg" />
-            <ProfilePost img="/images/arya4.jpg" />
+            {!isLoading ? photos.current : <p>Loading...</p>}
         </Grid>
       </Flex>
     </Container>
