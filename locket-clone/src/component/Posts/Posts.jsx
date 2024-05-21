@@ -1,14 +1,34 @@
-import { Container } from '@chakra-ui/react'
-import React from 'react'
+import { Container, List } from '@chakra-ui/react'
+import React, { useEffect, useRef } from 'react'
 import Post from './Post'
+import axios from 'axios'
+import { BACKEND_API } from '../../config'
+
+// {file_name, date_time, user_id, comments}
 
 const Posts = () => {
+  const [loading, setLoading] = React.useState(true)
+  const posts = useRef(null)
+
+  useEffect(() => {
+    axios.get(BACKEND_API + "/photos/list").then((result) => {
+      posts.current = result.data.map((item) => (
+        <Post
+          file_name={item.file_name}
+          date_time={item.date_time}
+          user_id={item.user_id}
+          comments={item.comments}
+        />
+      ));
+      setLoading(false);
+    });
+  });
+
   return (
     <Container maxW={"container.sm"} py={10} px={2}>
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+      <List >
+        {loading ? <p>Loading...</p> : posts.current}
+      </List>
     </Container>
   )
 }

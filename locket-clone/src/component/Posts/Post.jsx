@@ -11,10 +11,20 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { Like, Unlike, CommentLogo } from "../../logo";
+import axios from "axios";
+import { BACKEND_API } from "../../config";
 
-const Post = () => {
+const Post = ({file_name, date_time, user_id, comments}) => {
   const [liked, setLiked] = React.useState(false);
   const [likes, setLikes] = React.useState(-1);
+  const user = React.useRef({first_name: "", last_name: ""});
+  
+  React.useEffect(() => {
+    axios.get(BACKEND_API + `/user/profile/${user_id}`).then((result) => {
+      user.current = result.data;
+    });
+  });
+
 
   const handleLike = () => {
     setLiked(!liked);
@@ -31,13 +41,13 @@ const Post = () => {
       <Flex justifyContent={"space-between"} alignItems={"center"} w={"full"}>
         <Flex alignItems={"center"} gap={2}>
           <Avatar
-            src="./images/kenobi1.jpg"
+            src={`./images/${file_name}`}
             alt="user profile pic"
             size={"sm"}
           />
           <Flex fontSize={12} fontWeight={"bold"} gap={2}>
-            Kenobi
-            <Box color={"gray.500"}>• 1w</Box>
+            {user.current.first_name + " " + user.current.last_name}
+            <Box color={"gray.500"}>• {date_time}</Box>
           </Flex>
         </Flex>
 
@@ -57,7 +67,7 @@ const Post = () => {
 
       {/* post body */}
       <Box my={2} borderRadius={7} overflow={"hidden"}>
-        <Image width={"700px"} src="./images/ouster.jpg" alt="user profile image" />
+        <Image width={"700px"} src={`./images/${file_name}`} alt="user profile image" />
       </Box>
 
 
@@ -75,12 +85,12 @@ const Post = () => {
           {likes} likes
         </Text>
         <Text fontSize={"sm"} fontWeight={700}>
-          Kenobi{" "}
-          <Text as={"span"} fontWeight={400}>
+        {user.current.first_name}{" "}
+          {/* <Text as={"span"} fontWeight={400}>
             Kenobi good
-          </Text>
+          </Text> */}
           <Text fontSize={"sm"} color={"gray.500"}>
-            View all Kenobi comments
+            View all {user.current.first_name} comments
           </Text>
           <Flex
             alignItems={"center"}

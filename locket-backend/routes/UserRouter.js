@@ -11,7 +11,7 @@ router.get("/list", async (request, response) => {
   }
 });
 
-router.get("/:id", async (request, response) => {
+router.get("/profile/:id", async (request, response) => {
   try {
     const user = await User.findOne({ _id: request.params.id });
 

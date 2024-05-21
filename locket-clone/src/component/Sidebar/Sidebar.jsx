@@ -17,7 +17,7 @@ const Sidebar = () => {
         },        {
             icon: <User size = {25} />,
             text: "Profile",
-            link: "/profile"
+            link: "/profile/66372be76fe2c5a42c96c95d"
         },        {
             icon: <CreatePost size = {25} />,
             text: "Create Post",
@@ -47,14 +47,14 @@ const Sidebar = () => {
                     {sidebarItems.map((item, index) => (
                         <Tooltip 
                             hasArrow
-                            label={"Logout"}
+                            label={item.text}
                             placement='right'
                             ml={1}
                             openDelay={500}
                             display={{base: "block", md: "none"}}>
                             <Link
                                 display={"flex"}
-                                to={"/auth"}
+                                to={item.link}
                                 as={RouterLink}
                                 alignItems={"center"}
                                 gap={4}
@@ -103,11 +103,5 @@ const Sidebar = () => {
     </Box>
   )
 }
-
-// {
-//     icon: <Logout size = {25} />,
-//     text: "Logout",
-//     link: "/auth"
-// },
 
 export default Sidebar
