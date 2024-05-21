@@ -9,12 +9,6 @@ const HomePage = () => {
                 <Box flex={2} py={10}>
                     <Posts />
                 </Box>
-                <Box flex={3} mr={20}
-                    display={{base:"none", lg:"block"}}    
-                    maxW={"300px"}
-                >
-                    Suggested
-                </Box>
             </Flex>
         </Container>
     );

@@ -40,6 +40,7 @@ const Post = () => {
             <Box color={"gray.500"}>• 1w</Box>
           </Flex>
         </Flex>
+
         <Box cursor={"pointer"}>
           <Text
             fontSize={12}
@@ -56,7 +57,7 @@ const Post = () => {
 
       {/* post body */}
       <Box my={2} borderRadius={7} overflow={"hidden"}>
-        <Image src="./images/kenobi1.jpg" alt="user profile image" />
+        <Image width={"700px"} src="./images/ouster.jpg" alt="user profile image" />
       </Box>
 
 
