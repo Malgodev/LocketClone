@@ -11,7 +11,7 @@ import axios from "axios";
 import { BACKEND_API } from "../../config";
 import PostFooter from "./PostFooter";  
 
-const Post = ({file_name, date_time, user_id, comments}) => {
+const Post = ({post_id, file_name, date_time, user_id, comments}) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const user = React.useRef({first_name: "", last_name: ""});
   
@@ -57,8 +57,7 @@ const Post = ({file_name, date_time, user_id, comments}) => {
         <Image width={"700px"} src={`./images/${file_name}`} alt="user profile image" />
       </Box>
 
-
-      {!isLoading ? <PostFooter user={user} /> : <p>Loading</p>}
+      {!isLoading ? <PostFooter post={post_id} user={user} user_id={user_id}/> : <div>Loading</div>}
     </>
   );
 };

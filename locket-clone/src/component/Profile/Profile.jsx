@@ -18,7 +18,6 @@ const Profile = () => {
                 // console.log(item.file_name)
                 return(
                 <ProfilePost
-                    src={`/images/${item.file_name}`}
                     user = {user.current}
                     img = {item}
                 />
@@ -99,7 +98,7 @@ const Profile = () => {
         direction={"column"}
       >
         <Grid templateColumns={"repeat(3, 1fr)"} gap={1} columnGap={1}>
-            {!isLoading ? photos.current : <p>Loading...</p>}
+            {!isLoading ? photos.current : <div>Loading...</div>}
         </Grid>
       </Flex>
     </Container>

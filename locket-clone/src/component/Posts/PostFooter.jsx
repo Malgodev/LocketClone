@@ -1,10 +1,13 @@
 import React from 'react'
 import { Box, Flex, Text, InputGroup, Input, InputRightElement, Button } from '@chakra-ui/react'
 import { CommentLogo, Like, Unlike } from '../../logo';
+import axios from 'axios';
+import { BACKEND_API } from '../../config';
 
-const PostFooter = ({user = {current: {first_name: "error"}}}) => {
+const PostFooter = ({post, user = {current: {first_name: "error"}}, user_id}) => {
     const [liked, setLiked] = React.useState(false);
     const [likes, setLikes] = React.useState(-1);
+    const newComment = React.useRef(null);
 
     const handleLike = () => {
         setLiked(!liked);
@@ -14,6 +17,41 @@ const PostFooter = ({user = {current: {first_name: "error"}}}) => {
           setLikes(likes + 1);
         }
       };
+
+    const handleComment = async () => {
+        const res = await axios.post(
+            `${BACKEND_API}/post/${post}`,
+            {_id: post, comment: newComment.current.value, user: user_id},
+            {
+                headers: {
+                    "content-type": "application/json",
+                    "authorization": user.token,
+                }
+            }
+        );
+        if (res.status === 200){
+            newComment.current.value = "";
+        }
+
+        // try{
+        //   const res = await axios.post(
+        //     BACKEND_API + "/user/login",
+        //     { username: inputs.username, password: inputs.password },
+        //     {
+        //       headers: {
+        //         'Content-Type': 'application/json'
+        //       }
+        //     }
+        //   );
+    
+        //   if (res.status === 200){
+        //     navigate('/')
+        //   }
+        // }catch(err){
+        //   console.log(err)
+        // }
+    }
+    
 
   return (
     <>      {/* post footer */}
@@ -48,6 +86,7 @@ const PostFooter = ({user = {current: {first_name: "error"}}}) => {
               variant={"flushed"}
               placeholder={"Add a comment"}
               fontSize={14}
+              ref={newComment}
             />
             <InputRightElement>
               <Button
@@ -57,6 +96,7 @@ const PostFooter = ({user = {current: {first_name: "error"}}}) => {
                 cursor={"pointer"}
                 _hover={{ color: "blue.500" }}
                 bg={"transparent"}
+                onClick={handleComment}
               >
                 Post
               </Button>

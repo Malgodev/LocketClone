@@ -12,14 +12,15 @@ const Posts = () => {
 
   useEffect(() => {
     axios.get(BACKEND_API + "/photos/list").then((result) => {
-      posts.current = result.data.map((item) => (
-        <Post
+      posts.current = result.data.map((item) => {
+        return (<Post
+          post_id={item._id}
           file_name={item.file_name}
           date_time={item.date_time}
           user_id={item.user_id}
           comments={item.comments}
-        />
-      ));
+        />)
+    });
       setLoading(false);
     });
   });
@@ -27,7 +28,7 @@ const Posts = () => {
   return (
     <Container maxW={"container.sm"} py={10} px={2}>
       <List >
-        {loading ? <p>Loading...</p> : posts.current}
+        {loading ? <div>Loading...</div> : posts.current}
       </List>
     </Container>
   )
