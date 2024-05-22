@@ -6,7 +6,7 @@ import { BACKEND_API } from '../../config'
 
 // {file_name, date_time, user_id, comments}
 
-const Posts = () => {
+const Posts = ({user}) => {
   const [loading, setLoading] = React.useState(true)
   const posts = useRef(null)
 
@@ -14,11 +14,9 @@ const Posts = () => {
     axios.get(BACKEND_API + "/photos/list").then((result) => {
       posts.current = result.data.map((item) => {
         return (<Post
-          post_id={item._id}
-          file_name={item.file_name}
-          date_time={item.date_time}
-          user_id={item.user_id}
-          comments={item.comments}
+          key={item._id}
+          user={user}
+          post={item}
         />)
     });
       setLoading(false);

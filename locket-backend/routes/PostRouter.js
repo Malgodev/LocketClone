@@ -30,25 +30,23 @@ router.get("/photo/:id", async (request, response) => {
   });
 
 router.post("/:id", async (request, response) => {
-  const { _id, comment, like, user_id } = request.body;
-
+  const { _id, comment, like, user } = request.body;
   try {
     const post = await Photo.findOne({ _id: _id }).lean();
 
     if (post) {
-        
       if (comment) {
         post.comments.push({
           comment: comment,
-          user_id: user_id,
+          user_id: user,
         });
-
-        console.log(post.comments, post._id);
       }
 
+      await Photo.findByIdAndUpdate(_id, post);
+      
+      const newPost = await Photo.findOne({ _id: _id }).lean();
 
-      await Photo.findByIdAndUpdate(post._id, post);
-      res.status(200).send("Update successfully");
+      response.status(200).send(newPost);
     } else {
       response.status(404).send("Invalid post");
     }

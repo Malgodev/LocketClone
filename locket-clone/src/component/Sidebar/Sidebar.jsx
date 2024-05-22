@@ -3,7 +3,7 @@ import { Box, Flex, Link, Tooltip } from "@chakra-ui/react"
 import { Link as RouterLink } from "react-router-dom"
 import { Logo, User, Home, Search, CreatePost, Logout } from "../../logo"
 
-const Sidebar = () => {
+const Sidebar = ({user}) => {
   const sidebarItems = [
     {
       icon: <Home size={25} />,
@@ -18,7 +18,7 @@ const Sidebar = () => {
     {
       icon: <User size={25} />,
       text: "Profile",
-      link: "/profile/66372be76fe2c5a42c96c95d"
+      link: `/profile/${user._id}`
     },
     {
       icon: <CreatePost size={25} />,

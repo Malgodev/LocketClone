@@ -1,32 +1,23 @@
 import { Avatar, AvatarGroup, Container, Flex, VStack, Text, Button, Grid } from "@chakra-ui/react";
-// import 
 import ProfilePost from "./ProfilePost";
 import React, { useEffect } from "react";
 import { BACKEND_API } from "../../config";
 import axios from "axios";
-import useAuthStore from "../../store/authStore";
 
-const Profile = () => {
+const Profile = ({user}) => {
     const [isLoading, setIsLoading] = React.useState(true);
     const photos = React.useRef(null)
-    const user = React.useRef(null)
-    const authUser = useAuthStore((state) => state.user);    
 
     useEffect(() => {
-        axios.get(`${BACKEND_API}/photos/photoOfUser/${authUser}`).then((result) => {
+        axios.get(`${BACKEND_API}/photos/photoOfUser/${user._id}`).then((result) => {
             photos.current = result.data.map((item) => {
-                // console.log(item.file_name)
                 return(
                 <ProfilePost
-                    user = {user.current}
+                    key={item._id}
+                    user = {user}
                     img = {item}
                 />
             )});
-            setIsLoading(false);
-        });
-
-        axios.get(`${BACKEND_API}/user/profile/${authUser}`).then((result) => {
-            user.current = result.data;
             setIsLoading(false);
         });
     });
@@ -49,7 +40,9 @@ const Profile = () => {
             alignSelf={"flex-start"}
             mx={"auto"}
           >
-            <Avatar name="Smao" src="/arya1.jpg" alt="Profile avatar" />
+            <Avatar name="Smao" 
+            src={user.avatar ? `/${user.avatar}` : ""}
+            alt="Profile avatar" />
           </AvatarGroup>
 
           <VStack alignItems={"start"} gap={2} mx={"auto"} flex={1}>
@@ -60,7 +53,7 @@ const Profile = () => {
               alignItems={"center"}
               w={"full"}
             >
-                <Text fontSize={"sm"}>Lmao</Text>
+                <Text fontSize={"sm"}>{user.first_name + " " + user.last_name}</Text>
                 <Flex gap={4} alignItems={"center"} justifyContent={"center"}>
                     <Button bg={"blue.300"} color={"white"} _hover={{bg: "blue.400"}} size={"xs"}>Edit Profile</Button>
                 </Flex>
@@ -81,9 +74,9 @@ const Profile = () => {
                 </Text>
             </Flex>
             <Flex alignItems={"center"} gap={4} >
-                <Text fontSize={"sm"} fontWeight={"bold"}>Mathematician</Text>
+                <Text fontSize={"sm"} fontWeight={"bold"}>{user.occupation}</Text>
             </Flex>
-                <Text fontSize={"sm"}>Description</Text>
+                <Text fontSize={"sm"}>{user.description}</Text>
           </VStack>
         </Flex>
       </Flex>

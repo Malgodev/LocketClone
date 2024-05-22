@@ -16,23 +16,20 @@ import {
 } from "@chakra-ui/react";
 import { Unlike, CommentLogo, Delete } from "../../logo";
 import Comment from "../Comment/Comment";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PostFooter from "../Posts/PostFooter";
 
 const ProfilePost = ({ user, img }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const comments = React.useRef(null);
+  const [comments, setComments] = useState(img.comments);
 
-    useEffect(() => {
-        comments.current = img.comments.map((item) => (
-            <Comment 
-            comment= {item.comment}
-            // date_time= {item.date_time}
-            date_time= {"1w"}
-            user_id= {item.user_id}
-            _id= {item._id} />
-        ));
-    });
+  useEffect(() => {
+    setComments(img.comments);
+  }, [img.comments]);
+
+  const handleComment = (comments) => {
+    setComments((prevComments) => comments);
+  };
 
   return (
     <>
@@ -70,7 +67,7 @@ const ProfilePost = ({ user, img }) => {
             <Flex>
               <CommentLogo size={20} />
               <Text fontWeight={"bold"} ml={2}>
-                {img.comments.length}
+                {comments.length}
               </Text>
             </Flex>
           </Flex>
@@ -111,9 +108,13 @@ const ProfilePost = ({ user, img }) => {
               <Flex flex={1} flexDir={"column"} px={10} display={"flex"}>
                 <Flex alignItems={"center"} justifyContent={"space-between"}>
                   <Flex gap={4} alignItems={"center"}>
-                    <Avatar src="/arya1.jpg" name="Lmao" size={"sm"} />
+                    <Avatar
+                      src={user.avatar ? `/${user.avatar}` : ""}
+                      name={user.first_name + " " + user.last_name}
+                      size={"sm"}
+                    />
                     <Text fontWeight={"bold"} fontSize={12}>
-                      Lmao
+                      {user.first_name + " " + user.last_name}
                     </Text>
                   </Flex>
                   <Box
@@ -124,13 +125,15 @@ const ProfilePost = ({ user, img }) => {
                     <Delete size={20} cursor={"pointer"} />
                   </Box>
                 </Flex>
-                <Divider my={4} bg={"gray.500"}/>
+                <Divider my={4} bg={"gray.500"} />
 
-                <VStack w={"30vh"} alignItems={"start"} maxH={"500px"} overflowY={"auto"}>
-                    {comments.current}
+                <VStack w={"30vh"} alignItems={"start"} maxH={"600px"} overflowY={"auto"}>
+                  {comments.map((comment) => (
+                    <Comment key={comment._id} comment={comment} />
+                  ))}
                 </VStack>
-                <Divider my={4} bg={"gray.500"}/>
-                <PostFooter />
+                <Divider my={4} bg={"gray.500"} />
+                <PostFooter post={img} user={user} blogOwner={user} onNewComment={handleComment} />
               </Flex>
             </Flex>
           </ModalBody>
