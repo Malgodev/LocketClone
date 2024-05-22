@@ -9,23 +9,73 @@ import {
 } from "@chakra-ui/react";
 
 import { useState } from "react";
-
+import axios from "axios";
 import { AddImage } from "../../logo";
+import {useNavigate} from "react-router-dom";
+import { BACKEND_API } from "../../config";
 
-const CreatePost = () => {
+const CreatePost = ({user}) => {
   const imageRef = useRef(null);
   const [image, setImage] = useState([]);
+
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     setImage(e.target.files[0]);
   };
 
   const handlePostCreation = async (e) => {
-    console.log(image);
-    
-    // const res = await axios.
+    e.preventDefault();
+  
+    if (!image) {
+      console.log("No image selected");
+      return;
+    }
 
+    const formData = new FormData();
+    formData.append("image", image);
+  
+    try{
+      const resPost = await axios.post(
+        `${BACKEND_API}/photos/kys`,
+        {
+          file_name: image.name,
+          user_id: user._id,
+          comments: [],
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (resPost.status === 200){
+        const resUpload = await fetch(
+          `${BACKEND_API}/post/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        navigate("/");
+      }
+    }catch (err) {
+      console.log(err);
+    }
   };
+
+//   router.post("/", TokenVerify, async (req, res) => {
+//     try {
+//         const post = new model.post(req.body);
+//         await post.save();
+//         res.send("Post successfully");
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send("Please try again");
+//     }
+// });
+
 
   return (
     <Flex justifyContent={"center"} alignContent={"center"} flexDirection={"column"}>

@@ -1,33 +1,22 @@
 const Photo = require("../db/photoModel");
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 
-router.get("/photo/:id", async (request, response) => {
-    const { _id, like, comment } = request.body;
-  
-    try {
-      const post = await Photo.findOne({ _id: request.params.id }).lean();
-      if (post) {
-    //     if (comment) {
-    //       post.comments.push({
-    //         comment: comment,
-    //         user_id: request.user._id,
-    //       });
-    //     }
-    // if (like){
-    //     if (post.like_user_id) post.like_user_id = [];
-    //     post.like_user_id.push(request.user._id);
-    // } else if (like === false){
-    //     post.like_user_id = post.like_user_id.filter((like_user_id) => (!like_user_id.equals(request.user._id)));
-    // }
-        response.status(200).send(post);
-      } else {
-        response.status(404).send("Invalid post");
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'D:/Coding/WebProgramming/LocketClone/locket-clone/public/images')
+      },
+      filename: function (req, file, cb) {
+        cb(null, file.originalname)
       }
-    } catch (error) {
-      response.status(500).send({ error });
-    }
-  });
+})
+
+const upload = multer({ storage: storage });
+
+router.post("/upload", upload.single("image"), (require, response) => {
+    response.json(require.files);
+})
 
 router.post("/:id", async (request, response) => {
   const { _id, comment, like, user } = request.body;
