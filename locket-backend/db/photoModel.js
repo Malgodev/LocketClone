@@ -7,7 +7,7 @@ const commentSchema = new mongoose.Schema({
 });
 
 const photoSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  // _id: mongoose.Schema.Types.ObjectId,
   file_name: { type: String },
   date_time: { type: Date, default: Date.now },
   user_id: mongoose.Schema.Types.ObjectId,
