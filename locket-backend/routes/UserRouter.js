@@ -28,7 +28,10 @@ router.get("/profile/:id", async (request, response) => {
 router.post("/login", async (request, response) => {
   const { username, password } = request.body;
   try {
-    const user = await User.findOne({ login_name: username, password: password }).lean();
+    const user = await User.findOne({
+      login_name: username,
+      password: password,
+    }).lean();
 
     if (user) {
       require("jsonwebtoken").sign(
@@ -42,7 +45,7 @@ router.post("/login", async (request, response) => {
             user.token = token;
             response.send(user);
           }
-        },
+        }
       );
     } else {
       response.status(404).send("Invalid username or password");
@@ -50,6 +53,18 @@ router.post("/login", async (request, response) => {
   } catch (error) {
     console.error(error);
     response.status(500).send("Something went wrong. Please try again");
+  }
+});
+
+router.post("/register", async (request, response) => {
+  try {
+    const user = new User(request.body);
+    console.log(user);
+    await user.save();
+    response.status(200).send("User created successfully");
+  } catch (error) {
+    console.log(error);  
+    response.status(500).send({ error });
   }
 });
 

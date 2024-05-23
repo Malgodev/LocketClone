@@ -56,6 +56,40 @@ const LoginRegister = ({ setUser }) => {
     }
   };
 
+  const handleRegister = async () => {
+    if (!inputs.username || !inputs.password || !inputs.comfirmPassword) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    if (inputs.password !== inputs.comfirmPassword) {
+      alert("Password does not match");
+      return;
+    }
+
+    // navigate('/');
+
+    try {
+      const res = await axios.post(
+        BACKEND_API + "/user/register",
+        { login_name: inputs.username, password: inputs.password, first_name: inputs.username},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        console.log(res.data);
+        setIsLogin(true);
+        // navigate("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <Flex minH={"100vh"} justifyContent={"center"} alignItems={"center"} px={4}>
       <Container maxW={"container.md"} padding={0}>
@@ -120,7 +154,7 @@ const LoginRegister = ({ setUser }) => {
                   colorScheme="blue"
                   size="sm"
                   fontSize={14}
-                  onClick={handleAuth}
+                  onClick={(isLogin ? handleAuth : handleRegister)}
                 >
                   {isLogin ? "Login" : "Register"}
                 </Button>
